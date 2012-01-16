@@ -4,7 +4,25 @@ apply plugin : 'eclipse'
 repositories { mavenCentral() }
 
 dependencies {
-    groovy 'org.codehaus.groovy:groovy-all:1.8.4'
+    compile fileTree(dir: 'lib', include: '*.jar')
+
+    groovy 'org.codehaus.groovy:groovy-all:1.8.5' 
+        
+    compile "org.spockframework:spock-core:0.5-groovy-1.8", {
+        transitive = false
+    }
+    compile 'com.sun.jersey:jersey-server:1.11'
+    compile 'com.sun.jersey:jersey-core:1.11'
+    compile 'com.sun.jersey:jersey-json:1.11'
+
+    // For testing
+    testCompile "org.hamcrest:hamcrest-core:1.2" // Hamcrest matchers
+    testRuntime "cglib:cglib-nodep:2.2"     // enables mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:1.2" // enables mocking of classes without default constructor (together with CGLIB)  
+    testCompile 'junit:junit:4.8.2'
+    testCompile "org.hamcrest:hamcrest-core:1.2.1"
+    testCompile "org.hamcrest:hamcrest-library:1.2.1", { transitive = false }
+
 }
 
 task makeDirs(description : 'make all dirs for project setup') << {
